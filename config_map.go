@@ -62,6 +62,14 @@ func (c ConfigMap) GetEnvOrDefault(key string, value interface{}) (interface{}, 
 	return v, nil
 }
 
+func (c *ConfigMap) mergeConfig(config ConfigMap) {
+	for k, v := range config {
+		if notEmptyOrNil(k) && notEmptyOrNil(v) {
+			(*c)[k] = v
+		}
+	}
+}
+
 func isEmptyValue(v reflect.Value) bool {
 	switch v.Kind() {
 	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:
@@ -76,28 +84,3 @@ func notEmptyOrNil(i interface{}) bool {
 	v := reflect.ValueOf(i)
 	return v.IsValid() && !isEmptyValue(v)
 }
-
-/*
-func main() {
-
-	cfg := ConfigMap{
-		"a": "b", // covered
-		"c": "",  // covered
-		"d": 0,
-		"e": []int{1, 2, 3},
-		"f": []string{"one", "two", "three"},
-		"g": func() { fmt.Println("Function Handler") },
-	}
-
-	fmt.Printf("ConfigMap size: %v\n", unsafe.Sizeof(cfg))
-	fmt.Printf("&ConfigMap size: %v\n", unsafe.Sizeof(&cfg))
-	fmt.Println(cfg)
-
-	var v interface{}
-	var b bool
-
-	v, b = cfg.GetOrDefault("c", "d")
-	fmt.Printf("map[c] exists (should be false) %v\n", b)
-	fmt.Printf("Should map[c]=d %v\n", v)
-}
-*/

@@ -135,3 +135,30 @@ func Test_ShouldReturnBool(t *testing.T) {
 	assert.Nil(t, v, "Should be nil")
 	assert.False(t, ok, "Should be false")
 }
+
+func Test_ShouldMergeConfig(t *testing.T) {
+	cfg := &ConfigMap{}
+	cfg.mergeConfig(ConfigMap{
+		"a":   "b",
+		"foo": "bar",
+	})
+	assert.EqualValues(t, &ConfigMap{"a": "b", "foo": "bar"}, cfg)
+}
+
+func Test_ShouldMergeConfigAndOverridingExisting(t *testing.T) {
+	cfg := &ConfigMap{"foo": "bar"}
+	cfg.mergeConfig(ConfigMap{"foo": "barbar", "xyz": "abc"})
+	assert.EqualValues(t, &ConfigMap{"foo": "barbar", "xyz": "abc"}, cfg)
+}
+
+func Test_ShouldMergeConfigButNotOverrideWithEmptyValues(t *testing.T) {
+	cfg := &ConfigMap{"foo": "bar"}
+	cfg.mergeConfig(ConfigMap{"foo": ""})
+	assert.EqualValues(t, &ConfigMap{"foo": "bar"}, cfg)
+}
+
+func Test_ShouldMergeConfigButNotOverrideWithEmptyKeys(t *testing.T) {
+	cfg := &ConfigMap{"foo": "bar"}
+	cfg.mergeConfig(ConfigMap{"": "bar"})
+	assert.EqualValues(t, &ConfigMap{"foo": "bar"}, cfg)
+}
