@@ -62,7 +62,7 @@ func (c ConfigMap) GetEnvOrDefault(key string, value interface{}) (interface{}, 
 	return v, nil
 }
 
-func (c *ConfigMap) mergeConfig(config ConfigMap) {
+func (c *ConfigMap) MergeConfig(config ConfigMap) {
 	for k, v := range config {
 		if notEmptyOrNil(k) && notEmptyOrNil(v) {
 			(*c)[k] = v
