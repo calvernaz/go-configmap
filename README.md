@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/calvernaz/go-configmap.svg?branch=master)](https://travis-ci.org/calvernaz/go-configmap)
+
 # go-configmap
 
 Old habits die hard. The motivation is get configuration settings from your environment and if they don't exist provide a default.
