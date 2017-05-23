@@ -1,6 +1,7 @@
 package configmap
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -81,6 +82,7 @@ func Test_ShouldReturnEnvValue(t *testing.T) {
 func Test_ShouldReturnFallbackValueIfEnvValueNotPresent(t *testing.T) {
 	cfg := &ConfigMap{}
 	v, _ := cfg.GetEnvOrDefault("env", "default")
+	fmt.Println(v)
 	assert.Equal(t, "default", v, "Should return environment variable")
 
 	ev, ok := cfg.Get("env")
@@ -138,7 +140,7 @@ func Test_ShouldReturnBool(t *testing.T) {
 
 func Test_ShouldMergeConfig(t *testing.T) {
 	cfg := &ConfigMap{}
-	cfg.mergeConfig(ConfigMap{
+	cfg.MergeConfig(ConfigMap{
 		"a":   "b",
 		"foo": "bar",
 	})
@@ -147,18 +149,18 @@ func Test_ShouldMergeConfig(t *testing.T) {
 
 func Test_ShouldMergeConfigAndOverridingExisting(t *testing.T) {
 	cfg := &ConfigMap{"foo": "bar"}
-	cfg.mergeConfig(ConfigMap{"foo": "barbar", "xyz": "abc"})
+	cfg.MergeConfig(ConfigMap{"foo": "barbar", "xyz": "abc"})
 	assert.EqualValues(t, &ConfigMap{"foo": "barbar", "xyz": "abc"}, cfg)
 }
 
 func Test_ShouldMergeConfigButNotOverrideWithEmptyValues(t *testing.T) {
 	cfg := &ConfigMap{"foo": "bar"}
-	cfg.mergeConfig(ConfigMap{"foo": ""})
+	cfg.MergeConfig(ConfigMap{"foo": ""})
 	assert.EqualValues(t, &ConfigMap{"foo": "bar"}, cfg)
 }
 
 func Test_ShouldMergeConfigButNotOverrideWithEmptyKeys(t *testing.T) {
 	cfg := &ConfigMap{"foo": "bar"}
-	cfg.mergeConfig(ConfigMap{"": "bar"})
+	cfg.MergeConfig(ConfigMap{"": "bar"})
 	assert.EqualValues(t, &ConfigMap{"foo": "bar"}, cfg)
 }
