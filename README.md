@@ -54,10 +54,12 @@ cfg.MergeConfig(ConfigMap{"foo": "barbar", "xyz": "abc"})
 assert.EqualValues(t, &ConfigMap{"foo": "barbar", "xyz": "abc"}, cfg)
 ```
 
+## Extra
+
 - Although this library is self-sufficient I tend to use it with a combination of something else for a better ubiquitous language.
 
 
-``go
+```go
 type Environment struct {
 	config.ConfigMap
 }
