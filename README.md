@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/calvernaz/go-configmap.svg?branch=master)](https://travis-ci.org/calvernaz/go-configmap)
+[![Coverage Status](https://coveralls.io/repos/github/calvernaz/go-configmap/badge.svg?branch=master)](https://coveralls.io/github/calvernaz/go-configmap?branch=master)
 
 # go-configmap
 
