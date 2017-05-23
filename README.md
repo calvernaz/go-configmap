@@ -11,15 +11,45 @@ Old habits die hard. The motivation is get configuration settings from your envi
 
 ## Use
 
+### Get from environment, otherwise fallbacks to default
+
 ```go
 cfg := &ConfigMap{}
 v, _ := cfg.GetEnvOrDefault("env", "default")
 fmt.Println(v) // default
 ```
 
-## API
+### Get from configuration, otherwise fallbacks to default
 
-- Get(key string)
-- GetOrDefault(key string, defaultValue interface{})
-- GetEnvOrDefault(key string, value interface{})
-- MergeConfig(config ConfigMap)
+```go
+cfg := &ConfigMap{ "db": "file.db" }
+v, _ := cfg.GetOrDefault("db", "data.db")
+fmt.Println(v) // file.db
+```
+
+### Get from configuration
+
+```go
+cfg := &ConfigMap{ "debug": "false" }
+v, ok := cfg.Get("debug")
+fmt.Println(v) // false
+fmt.Println(ok) // true
+```
+
+### Merge configuration
+
+```go
+cfg := &ConfigMap{}
+cfg.MergeConfig(ConfigMap{
+  "a":   "b",
+  "foo": "bar",
+})
+
+assert.EqualValues(t, &ConfigMap{"a": "b", "foo": "bar"}, cfg)
+```
+
+```go
+cfg := &ConfigMap{"foo": "bar"}
+cfg.MergeConfig(ConfigMap{"foo": "barbar", "xyz": "abc"})
+assert.EqualValues(t, &ConfigMap{"foo": "barbar", "xyz": "abc"}, cfg)
+```
