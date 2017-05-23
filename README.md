@@ -9,9 +9,9 @@ Old habits die hard. The motivation is get configuration settings from your envi
 ## Use
 
 ```go
-	cfg := &ConfigMap{}
-	v, _ := cfg.GetEnvOrDefault("env", "default")
-	fmt.Println(v) // default
+cfg := &ConfigMap{}
+v, _ := cfg.GetEnvOrDefault("env", "default")
+fmt.Println(v) // default
 ```
 
 ## API
